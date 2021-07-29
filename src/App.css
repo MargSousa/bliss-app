@@ -1,4 +1,10 @@
 
+/* API colors */
+/* grey #4C5363 */
+/* blue #5AABFC */
+/* light-green #95D7BD  */
+/* button color hover #3DB980 */
+
 .App {
   display: flex;
   width: 100%;
@@ -14,14 +20,38 @@
   font-size: 24px;
   background-color: white;
   padding: 0px 15px;
+  color: #4C5363;
 }
 
 .main-box {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
   width: 60%;
   margin-top: -15px;
-  padding: 30px;
+  padding: 50px 30px 50px 30px;
   border: solid 1px rgb(177, 177, 177);
   border-radius: 10px;
+  min-height: 64px;
+}
+
+.btn {
+  cursor: pointer;
+  border: none;
+  border-radius: 5px;
+  padding: 10px 20px;
+  outline: none;
+}
+
+.btn-retry {
+  background-color: #3DB980;
+  color: white;
+}
+
+.btn-retry:hover {
+  background-color: #329667;
+  color: white;
 }
 
 @media(max-width: 375px) {
