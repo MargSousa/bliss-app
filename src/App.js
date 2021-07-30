@@ -14,7 +14,7 @@ function App() {
   useEffect(() => {
     getServerHealth();
   }, [])
-
+  
   const getServerHealth = () => {
     axios.get('https://private-anon-7c54611a93-blissrecruitmentapi.apiary-mock.com/health')
     .then((res) => {
@@ -29,16 +29,25 @@ function App() {
     }
   )}
 
+  const getQuestionsList = (filter) => {
+    axios.get(`http://private-anon-7c54611a93-blissrecruitmentapi.apiary-mock.com/questions?limit=10&offset=&filter=${filter}`)
+    .then((res) => {
+      setQuestionsList(res.data);
+    })
+  }
+
   const handleRetryClick  = () => {
     setIsLoading(true);
     getServerHealth();
   }
 
-  const getQuestionsList = () => {
-    axios.get(`http://private-anon-7c54611a93-blissrecruitmentapi.apiary-mock.com/questions?limit=10&filter=${filter}`)
-    .then((res) => {
-      setQuestionsList(res.data)
-    })
+  const handleSearchChange = (input) => {
+    setFilter(input);
+  }
+  
+  const handleSearchSubmit = () => {
+    getQuestionsList(filter);
+    setFilter('');
   }
 
   return (
@@ -49,10 +58,10 @@ function App() {
           <Loader type="Circles" color="#95D7BD" height={60} width={60} />
         }
         { !isLoading && !serverHealth &&
-          <button className="btn btn-retry" onClick={handleRetryClick}>Retry Action</button>
+          <button className="btn-retry" onClick={handleRetryClick}>Retry Action</button>
         }
         { !isLoading && serverHealth &&
-          <QuestionsList list={questionsList} />
+          <QuestionsList list={questionsList} filter={filter} searchChange={handleSearchChange} searchSubmit={handleSearchSubmit} />
         }
       </div>
     </div>

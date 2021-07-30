@@ -1,9 +1,16 @@
 import React from 'react';
 import './QuestionsList.css';
 
-const QuestionsList = ({ list }) => {
+const QuestionsList = ({ list, filter, searchChange, searchSubmit }) => {
 
-  console.log(list)
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    searchSubmit();
+  }
+
+  const handleChange = (event) => {
+    searchChange(event.target.value);
+  }
 
   const questions = list && list.map((item) => {
     const date = (new Date(item.published_at)).toLocaleDateString('pt-PT');
@@ -22,7 +29,11 @@ const QuestionsList = ({ list }) => {
 
   return (
     <>
-      {questions}
+      <form onSubmit={handleSubmit}>
+        <input type="text" value={filter} onChange={handleChange} />
+        <button className="btn-search" type="submit">Search</button>
+      </form>
+      <div>{questions}</div>
     </>
   );
 }
