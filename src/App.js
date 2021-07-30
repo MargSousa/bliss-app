@@ -1,68 +1,21 @@
-import axios from 'axios';
-import { useState, useEffect } from 'react';
-import Loader from "react-loader-spinner";
+import React from 'react';
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import QuestionsList from './components/QuestionsList';
+import Question from './components/Question';
 import './App.css';
 
 function App() {
-
-  const [isLoading, setIsLoading] = useState(true);
-  const [serverHealth, setServerHealth] = useState(false);
-  const [questionsList, setQuestionsList] = useState([]);
-  const [filter, setFilter] = useState("");
-
-  useEffect(() => {
-    getServerHealth();
-  }, [])
-  
-  const getServerHealth = () => {
-    axios.get('https://private-anon-7c54611a93-blissrecruitmentapi.apiary-mock.com/health')
-    .then((res) => {
-      if(res.data.status === 'OK') {
-        getQuestionsList();
-        setServerHealth(true);
-        setIsLoading(false);
-      } else {
-        setIsLoading(false);
-        setServerHealth(false);
-      }
-    }
-  )}
-
-  const getQuestionsList = (filter) => {
-    axios.get(`http://private-anon-7c54611a93-blissrecruitmentapi.apiary-mock.com/questions?limit=10&offset=&filter=${filter}`)
-    .then((res) => {
-      setQuestionsList(res.data);
-    })
-  }
-
-  const handleRetryClick  = () => {
-    setIsLoading(true);
-    getServerHealth();
-  }
-
-  const handleSearchChange = (input) => {
-    setFilter(input);
-  }
-  
-  const handleSearchSubmit = () => {
-    getQuestionsList(filter);
-    setFilter('');
-  }
-
   return (
     <div className="App">
       <div className="main-title">Bliss Recruitment App</div>
       <div className="main-box">
-        { isLoading && 
-          <Loader type="Circles" color="#95D7BD" height={60} width={60} />
-        }
-        { !isLoading && !serverHealth &&
-          <button className="btn-retry" onClick={handleRetryClick}>Retry Action</button>
-        }
-        { !isLoading && serverHealth &&
-          <QuestionsList list={questionsList} filter={filter} searchChange={handleSearchChange} searchSubmit={handleSearchSubmit} />
-        }
+        <Router>
+          <Switch>
+            <Route exact path="/" component={QuestionsList}/>
+            <Route exact path="/questions" component={QuestionsList}/>
+            <Route exact path="/questions/:id" component={Question} />
+          </Switch>
+        </Router>
       </div>
     </div>
   );

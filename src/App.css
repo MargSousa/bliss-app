@@ -43,20 +43,8 @@ button {
   padding: 10px 20px;
   outline: none;
   font-weight:500; 
+  width: 130px;
 }
-
-.btn-retry,
-.btn-search {
-  background-color: #3DB980;
-  color: white;
-}
-
-.btn-retry:hover,
-.btn-search:hover {
-  background-color: #329667;
-  color: white;
-}
-
 
 form {
   display: flex;

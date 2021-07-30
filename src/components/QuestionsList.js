@@ -1,18 +1,57 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
+import { Link } from "react-router-dom";
+import Loader from "react-loader-spinner";
 import './QuestionsList.css';
 
-const QuestionsList = ({ list, filter, searchChange, searchSubmit }) => {
+const QuestionsList = () => {
+
+  const [isLoading, setIsLoading] = useState(true);
+  const [serverHealth, setServerHealth] = useState(false);
+  const [questionsList, setQuestionsList] = useState([]);
+  const [filter, setFilter] = useState("");
+
+  useEffect(() => {
+    getServerHealth();
+  }, [])
+  
+  const getServerHealth = () => {
+    axios.get('https://private-anon-7c54611a93-blissrecruitmentapi.apiary-mock.com/health')
+    .then((res) => {
+      if(res.data.status === 'OK') {
+        getQuestionsList();
+        setServerHealth(true);
+        setIsLoading(false);
+      } else {
+        setIsLoading(false);
+        setServerHealth(false);
+      }
+    }
+  )}
+
+  const getQuestionsList = (filter) => {
+    axios.get(`http://private-anon-7c54611a93-blissrecruitmentapi.apiary-mock.com/questions?limit=10&offset=&filter=${filter}`)
+    .then((res) => {
+      setQuestionsList(res.data);
+    })
+  }
+
+  const handleRetryClick  = () => {
+    setIsLoading(true);
+    getServerHealth();
+  }
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    searchSubmit();
+    getQuestionsList(filter);
+    setFilter('');
   }
 
   const handleChange = (event) => {
-    searchChange(event.target.value);
+    setFilter(event.target.value);
   }
 
-  const questions = list && list.map((item) => {
+  const questions = questionsList && questionsList.map((item) => {
     const date = (new Date(item.published_at)).toLocaleDateString('pt-PT');
     //const time = (new Date(item.published_at)).toLocaleTimeString().slice(0,5);
 
@@ -28,13 +67,23 @@ const QuestionsList = ({ list, filter, searchChange, searchSubmit }) => {
   })
 
   return (
-    <>
-      <form onSubmit={handleSubmit}>
-        <input type="text" value={filter} onChange={handleChange} />
-        <button className="btn-search" type="submit">Search</button>
-      </form>
-      <div>{questions}</div>
-    </>
+    <div className="list">
+      { isLoading && 
+        <Loader type="Circles" color="#95D7BD" height={60} width={60} />
+      }
+      { !isLoading && !serverHealth &&
+        <button className="btn-retry" onClick={handleRetryClick}>Retry Action</button>
+      }
+      { !isLoading && serverHealth &&
+        <>
+          <form onSubmit={handleSubmit}>
+            <input type="text" value={filter} onChange={handleChange} />
+            <button className="btn-search" type="submit">Search</button>
+          </form>
+          <div>{questions}</div>
+        </>
+      }
+    </div>
   );
 }
  
