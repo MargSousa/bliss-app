@@ -8,6 +8,8 @@ function App() {
 
   const [isLoading, setIsLoading] = useState(true);
   const [serverHealth, setServerHealth] = useState(false);
+  const [questionsList, setQuestionsList] = useState([]);
+  const [filter, setFilter] = useState("");
 
   useEffect(() => {
     getServerHealth();
@@ -17,6 +19,7 @@ function App() {
     axios.get('https://private-anon-7c54611a93-blissrecruitmentapi.apiary-mock.com/health')
     .then((res) => {
       if(res.data.status === 'OK') {
+        getQuestionsList();
         setServerHealth(true);
         setIsLoading(false);
       } else {
@@ -31,6 +34,13 @@ function App() {
     getServerHealth();
   }
 
+  const getQuestionsList = () => {
+    axios.get(`http://private-anon-7c54611a93-blissrecruitmentapi.apiary-mock.com/questions?limit=10&filter=${filter}`)
+    .then((res) => {
+      setQuestionsList(res.data)
+    })
+  }
+
   return (
     <div className="App">
       <div className="main-title">Bliss Recruitment App</div>
@@ -42,7 +52,7 @@ function App() {
           <button className="btn btn-retry" onClick={handleRetryClick}>Retry Action</button>
         }
         { !isLoading && serverHealth &&
-          <QuestionsList />
+          <QuestionsList list={questionsList} />
         }
       </div>
     </div>
