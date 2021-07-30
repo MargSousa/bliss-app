@@ -56,11 +56,14 @@ form {
 
 input {
   border-radius: 5px;
-  outline: none;
   border: solid 1px rgb(211, 211, 211);
   padding: 10px 20px;
   margin-right: 10px;
   width: 300px;
+}
+
+a {
+  text-decoration: none;
 }
 
 @media(max-width: 375px) {
