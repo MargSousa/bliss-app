@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import axios from 'axios';
-import { useHistory, useLocation } from "react-router-dom";
+import { useHistory, useLocation, Link } from "react-router-dom";
 import Loader from "react-loader-spinner";
 import './QuestionsList.css';
 
@@ -74,13 +74,13 @@ const QuestionsList = () => {
     //const time = (new Date(item.published_at)).toLocaleTimeString().slice(0,5);
 
     return (
-      <div className="list-item" key={item.id}>
+      <Link to={`/questions/${item.id}`} className="list-item" key={item.id} >
         <img src={item.thumb_url} alt={item.id} />
         <div className="list-info">
           <div className="list-title">{item.question}</div>
           <div className="list-published">Published on {date}</div>
         </div>
-      </div>
+      </Link>
     )
   })
 
