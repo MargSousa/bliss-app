@@ -28,6 +28,7 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  position: relative;
   width: 60%;
   margin-top: -15px;
   padding: 40px 30px 40px 30px;
@@ -42,31 +43,27 @@ button {
   border-radius: 5px;
   padding: 10px 20px;
   outline: none;
-  font-weight:500; 
-  width: 130px;
+  font-weight: bold; 
 }
 
 form {
   display: flex;
   justify-content: center;
-  width: 100%;
   text-align: center;
-  margin: 20px 0px;
+  width: 100%;
 }
 
 input {
   border-radius: 5px;
   border: solid 1px rgb(211, 211, 211);
   padding: 10px 20px;
-  margin-right: 10px;
-  width: 300px;
 }
 
 a {
   text-decoration: none;
 }
 
-@media(max-width: 375px) {
+@media(max-width: 500px) {
   .main-box {
     width: 70%;
   }

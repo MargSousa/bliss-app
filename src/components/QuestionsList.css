@@ -8,7 +8,8 @@
 
 .list-item {
   display: flex;
-  margin: 15px 10px 0px 10px;
+  margin: 20px 10px 0px 10px;
+  max-width: 500px;
 }
 
 .list-info {
@@ -36,4 +37,29 @@
 .btn-search:hover {
   background-color: #329667;
   color: white;
+}
+
+.btn-share {
+  background-color: #4C5363;
+  color: white;
+  padding: 5px 15px;
+}
+
+.search-form {
+  margin: 20px 0px;
+}
+
+.search-input {
+  width: 300px;
+  margin-right: 10px; 
+}
+
+.icon-email {
+  font-size: 20px;
+  margin-right: 5px;
+  vertical-align: middle;
+}
+
+.btn-share-text {
+  vertical-align: middle;
 }

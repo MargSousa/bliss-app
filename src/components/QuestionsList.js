@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import axios from 'axios';
 import { useHistory, useLocation, Link } from "react-router-dom";
 import Loader from "react-loader-spinner";
+import ShareModal from './ShareModal';
 import './QuestionsList.css';
 
 const QuestionsList = () => {
@@ -16,6 +17,9 @@ const QuestionsList = () => {
   const [serverHealth, setServerHealth] = useState(false);
   const [questionsList, setQuestionsList] = useState([]);
   const [filter, setFilter] = useState(queryFilter ? queryFilter : '');
+  const [showModal, setShowModal] = useState(false);
+
+  const getResults = queryFilter === null || filter.length > 0;
   
   useEffect(() => {
     getServerHealth();
@@ -37,11 +41,11 @@ const QuestionsList = () => {
         setIsLoading(false);
         setServerHealth(false);
       }
-    }
-  )}
+    })
+  }
 
   const getQuestionsList = () => {
-    if (queryFilter === null || filter.length > 0) {
+    if (getResults) {
       axios.get(`http://private-anon-7c54611a93-blissrecruitmentapi.apiary-mock.com/questions?limit=10&offset=&filter=${filter}`)
       .then((res) => {
         setQuestionsList(res.data);
@@ -69,9 +73,16 @@ const QuestionsList = () => {
     }
   }
 
+  const openModal = () => {
+    setShowModal(true);
+  }
+
+  const closeModal = () => {
+    setShowModal(false);
+  }
+
   const questions = questionsList && questionsList.map((item) => {
     const date = (new Date(item.published_at)).toLocaleDateString('pt-PT');
-    //const time = (new Date(item.published_at)).toLocaleTimeString().slice(0,5);
 
     return (
       <Link to={`/questions/${item.id}`} className="list-item" key={item.id} >
@@ -84,6 +95,15 @@ const QuestionsList = () => {
     )
   })
 
+  const shareButton = getResults &&
+    (
+      <button className="btn-share" onClick={openModal}>
+        <span className="material-icons icon-email">mail</span>
+        <span className="btn-share-text">Share</span>
+      </button> 
+    )
+
+
   return (
     <div className="list">
       { isLoading && 
@@ -94,9 +114,10 @@ const QuestionsList = () => {
       }
       { !isLoading && serverHealth &&
         <>
-          <form onSubmit={handleSubmit}>
+          <form className="search-form" onSubmit={handleSubmit}>
             <input 
               type="text" 
+              className="search-input"
               name="searchInput"
               ref={inputRef}
               value={filter} 
@@ -104,7 +125,9 @@ const QuestionsList = () => {
             />
             <button className="btn-search" type="submit">Search</button>
           </form>
+          <div>{shareButton}</div>
           <div>{questions}</div>
+          <ShareModal url={window.location.href} showModal={showModal} closeModal={closeModal} />
         </>
       }
     </div>

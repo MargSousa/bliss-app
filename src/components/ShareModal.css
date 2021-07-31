@@ -1,0 +1,69 @@
+
+.share-main {
+  display: flex;
+  flex-direction: column;
+  position: absolute;
+  background-color: white;
+  border: 1px solid #e6e6e6;
+  border-radius: 10px;
+  padding: 20px 30px;
+  box-shadow: 0 19px 38px rgba(0,0,0,0.30), 0 15px 12px rgba(0,0,0,0.22);
+}
+
+.share-box {
+  display: flex;
+  flex-direction: column;
+  align-self: center;
+  margin: 30px 50px 10px 50px;
+  max-width: 400px;
+}
+
+.share-header {
+  text-align: end;
+}
+
+.btn-close {
+  font-size: 20px;
+  color: #4C5363;
+  padding: 0px;
+  background-color: white;
+}
+
+.share-title {
+  color: #4C5363;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.share-form {
+  display: flex;
+  flex-direction: column;
+}
+
+.btn-send {
+  margin-top: 5px;
+  background-color: #5AABFC;
+  color: white;
+}
+
+.share-result {
+  font-size: 14px;
+  text-align: center;
+  margin-top: 30px;
+  margin-bottom: 10px;
+  height: 17px;
+}
+
+.error {
+  color: red;
+}
+
+.done {
+  color: green;
+}
+
+@media(max-width: 500px) {
+  .share-box {
+    margin: 20px 0px 10px 0px;
+  }
+}
