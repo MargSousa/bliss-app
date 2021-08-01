@@ -2,8 +2,10 @@ import React, { useState, useEffect, useRef } from 'react';
 import axios from 'axios';
 import { useHistory, useLocation, Link } from "react-router-dom";
 import Loader from "react-loader-spinner";
+import moment from 'moment';
 import ShareModal from './ShareModal';
-import './QuestionsList.css';
+import ShareButton from './ShareButton';
+import '../styles/QuestionsList.css';
 
 const QuestionsList = () => {
 
@@ -82,8 +84,7 @@ const QuestionsList = () => {
   }
 
   const questions = questionsList && questionsList.map((item) => {
-    const date = (new Date(item.published_at)).toLocaleDateString('pt-PT');
-
+    const date = moment(item.published_at).format('LLL');
     return (
       <Link to={`/questions/${item.id}`} className="list-item" key={item.id} >
         <img src={item.thumb_url} alt={item.id} />
@@ -95,19 +96,11 @@ const QuestionsList = () => {
     )
   })
 
-  const shareButton = getResults &&
-    (
-      <button className="btn-share" onClick={openModal}>
-        <span className="material-icons icon-email">mail</span>
-        <span className="btn-share-text">Share</span>
-      </button> 
-    )
-
 
   return (
-    <div className="list">
+    <div className="list-main">
       { isLoading && 
-        <Loader type="Circles" color="#95D7BD" height={60} width={60} />
+        <Loader type="Circles" color="#4ACC90" height={60} width={60} />
       }
       { !isLoading && !serverHealth &&
         <button className="btn-retry" onClick={handleRetryClick}>Retry Action</button>
@@ -125,8 +118,8 @@ const QuestionsList = () => {
             />
             <button className="btn-search" type="submit">Search</button>
           </form>
-          <div>{shareButton}</div>
-          <div>{questions}</div>
+          <ShareButton openModal={openModal} />
+          <div className="list">{questions}</div>
           <ShareModal url={window.location.href} showModal={showModal} closeModal={closeModal} />
         </>
       }

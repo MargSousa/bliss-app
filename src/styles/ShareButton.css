@@ -1,0 +1,30 @@
+
+.btn-share {
+  background-color: #4C5363;
+  color: white;
+  padding: 5px 15px;
+  font-size: 12px;
+}
+
+.btn-share:hover {
+  color: #59f3ab;
+}
+
+.btn-share-text {
+  vertical-align: middle;
+}
+
+.icon-email {
+  font-size: 14px;
+  margin-right: 5px;
+  vertical-align: middle;
+}
+
+@media(max-width: 500px) {
+  .icon-email {
+    font-size: 12px;
+  }
+  .btn-share {
+    font-size: 11px;
+  }
+}

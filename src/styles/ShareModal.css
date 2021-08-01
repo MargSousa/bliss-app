@@ -27,6 +27,11 @@
   color: #4C5363;
   padding: 0px;
   background-color: white;
+  border-radius: 10px;
+}
+
+.btn-close:hover {
+  background-color: #F0F1F4;
 }
 
 .share-title {
@@ -44,6 +49,10 @@
   margin-top: 5px;
   background-color: #5AABFC;
   color: white;
+}
+
+.btn-send:hover {
+  background-color: #4785c4;
 }
 
 .share-result {

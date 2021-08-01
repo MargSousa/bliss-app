@@ -1,15 +1,29 @@
 
-.list {
+.list-main {
   display: flex;
   flex-direction: column;
   align-items: center;
   width: 100%;
 }
 
+.list {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  flex-flow: wrap;
+  justify-content: space-evenly;
+  margin-top: 20px;
+}
+
 .list-item {
   display: flex;
-  margin: 20px 10px 0px 10px;
-  max-width: 500px;
+  padding: 10px;
+  width: 350px;
+}
+
+.list-item:hover {
+  background-color: #F0F1F4;
+  border-radius: 10px;
 }
 
 .list-info {
@@ -29,20 +43,14 @@
 
 .btn-retry,
 .btn-search {
-  background-color: #3DB980;
+  background-color: #4ACC90;
   color: white;
 }
 
 .btn-retry:hover,
 .btn-search:hover {
-  background-color: #329667;
+  background-color: #3DB980;
   color: white;
-}
-
-.btn-share {
-  background-color: #4C5363;
-  color: white;
-  padding: 5px 15px;
 }
 
 .search-form {
@@ -52,14 +60,4 @@
 .search-input {
   width: 300px;
   margin-right: 10px; 
-}
-
-.icon-email {
-  font-size: 20px;
-  margin-right: 5px;
-  vertical-align: middle;
-}
-
-.btn-share-text {
-  vertical-align: middle;
 }

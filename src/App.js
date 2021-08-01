@@ -1,8 +1,8 @@
 import React from 'react';
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import QuestionsList from './components/QuestionsList';
-import Question from './components/Question';
-import './App.css';
+import QuestionDetail from './components/QuestionDetail';
+import './styles/App.css';
 
 function App() {
   return (
@@ -13,7 +13,7 @@ function App() {
           <Switch>
             <Route exact path="/" component={QuestionsList}/>
             <Route exact path="/questions" component={QuestionsList}/>
-            <Route exact path="/questions/:id" component={Question} />
+            <Route exact path="/questions/:id" component={QuestionDetail} />
           </Switch>
         </Router>
       </div>

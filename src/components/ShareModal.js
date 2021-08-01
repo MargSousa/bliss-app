@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import './ShareModal.css';
+import '../styles/ShareModal.css';
 
 const ShareModal = ({ url, showModal, closeModal}) => {
 

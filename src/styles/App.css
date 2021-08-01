@@ -1,8 +1,9 @@
 
 /* API colors */
+/* light-grey #F0F1F4 */
 /* grey #4C5363 */
 /* blue #5AABFC */
-/* light-green #95D7BD  */
+/* green #4ACC90*/
 /* button color hover #3DB980 */
 
 .App {
@@ -29,7 +30,7 @@
   justify-content: center;
   align-items: center;
   position: relative;
-  width: 60%;
+  width: 70%;
   margin-top: -15px;
   padding: 40px 30px 40px 30px;
   border: solid 1px rgb(177, 177, 177);
