@@ -4,6 +4,7 @@ import axios from 'axios';
 import moment from 'moment';
 import ShareButton from './ShareButton';
 import ShareModal from './ShareModal';
+import { questionsDetailEndpoint } from '../data/api';
 import '../styles/QuestionDetail.css';
 
 const QuestionDetail = () => {
@@ -14,7 +15,7 @@ const QuestionDetail = () => {
   const [showModal, setShowModal] = useState(false);
 
   useEffect(() => {
-    axios.get(`https://private-anon-a031f60989-blissrecruitmentapi.apiary-mock.com/questions/${Number(questionId)}`)
+    axios.get(`${questionsDetailEndpoint}/${Number(questionId)}`)
       .then(res => {
         setDetail(res.data);
       })
@@ -29,7 +30,7 @@ const QuestionDetail = () => {
       return item
     });
 
-    axios.put(`https://private-anon-a031f60989-blissrecruitmentapi.apiary-mock.com/questions/${Number(questionId)}`, newDetail)
+    axios.put(`${questionsDetailEndpoint}/${Number(questionId)}`, newDetail)
      .then(res =>{
         setDetail({...res.data})
       })

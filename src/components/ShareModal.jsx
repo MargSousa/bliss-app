@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import { shareEndpoint } from '../data/api';
 import '../styles/ShareModal.css';
 
 const ShareModal = ({ url, showModal, closeModal}) => {
@@ -16,7 +17,7 @@ const ShareModal = ({ url, showModal, closeModal}) => {
   const handleSubmit = (event) => {
     event.preventDefault();
     if (email.length > 0) {
-      axios.post(`https://private-anon-5db31ee395-blissrecruitmentapi.apiary-mock.com/share?destination_email=${email}&content_url=${url}`)
+      axios.post(`${shareEndpoint}?destination_email=${email}&content_url=${url}`)
         .then(res => {
           setListShared(true);
           setShareNote('Email sent!');

@@ -5,6 +5,7 @@ import Loader from "react-loader-spinner";
 import moment from 'moment';
 import ShareModal from './ShareModal';
 import ShareButton from './ShareButton';
+import { healthCheckEndpoint, listEndpoint } from '../data/api';
 import '../styles/QuestionsList.css';
 
 const QuestionsList = () => {
@@ -37,7 +38,7 @@ const QuestionsList = () => {
   }, [offset])
   
   const getServerHealth = () => {
-    axios.get('https://private-anon-7c54611a93-blissrecruitmentapi.apiary-mock.com/health')
+    axios.get(`${healthCheckEndpoint}`)
     .then((res) => {
       if(res.data.status === 'OK') {
         getQuestionsList(filter);
@@ -56,7 +57,7 @@ const QuestionsList = () => {
 
   const getQuestionsList = (input) => {
     if (getResults) {
-      axios.get(`http://private-anon-7c54611a93-blissrecruitmentapi.apiary-mock.com/questions?limit=10&offset={0}&filter=${input}`)
+      axios.get(`${listEndpoint}?limit=10&offset={0}&filter=${input}`)
       .then((res) => {
         setQuestionsList(res.data);
       })
@@ -65,7 +66,7 @@ const QuestionsList = () => {
 
   const addQuestionsList = (input) => {
     if (getResults) {
-      axios.get(`http://private-anon-7c54611a93-blissrecruitmentapi.apiary-mock.com/questions?limit=10&offset=${offset}&filter=${input}`)
+      axios.get(`${listEndpoint}?limit=10&offset=${offset}&filter=${input}`)
       .then((res) => {
         const newData = questionsList;
         const newList = newData.concat(res.data);

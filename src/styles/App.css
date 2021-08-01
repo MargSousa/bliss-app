@@ -1,10 +1,11 @@
 
 /* API colors */
-/* light-grey #F0F1F4 */
+/* very-light-grey #F0F1F4 */
+/* light-grey #D3D3D3 */
 /* grey #4C5363 */
 /* blue #5AABFC */
 /* green #4ACC90*/
-/* button color hover #3DB980 */
+/* green hover #3DB980 */
 
 .App {
   display: flex;
