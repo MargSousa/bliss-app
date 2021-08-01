@@ -26,8 +26,7 @@ const QuestionsList = (props) => {
   const [offset, setOffset] = useState(0);
 
   const getResults = queryFilter === null || filter.length > 0;
-  const showWidgets = queryFilter === null && filter.length > 0;
-
+  
   
   useEffect(() => {
     getServerHealth();
