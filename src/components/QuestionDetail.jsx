@@ -11,17 +11,17 @@ import '../styles/QuestionDetail.css';
 
 const QuestionDetail = (props) => {
 
-  const { questionId } = useParams();
+  const { id } = useParams();
 
   const [detail, setDetail] = useState([]);
   const [showModal, setShowModal] = useState(false);
 
   useEffect(() => {
     getDetail();
-  }, [questionId])
+  }, [id])
 
   const getDetail = () => {
-    axios.get(`${questionsDetailEndpoint}/${Number(questionId)}`)
+    axios.get(`${questionsDetailEndpoint}/${Number(id)}`)
     .then(res => {
       setDetail(res.data);
     })
@@ -36,9 +36,9 @@ const QuestionDetail = (props) => {
       return item
     });
 
-    axios.put(`${questionsDetailEndpoint}/${Number(questionId)}`, newDetail)
+    axios.put(`${questionsDetailEndpoint}/${Number(id)}`, newDetail)
      .then(res =>{
-        setDetail({...res.data})
+        setDetail({...newDetail})
       })
   }
 
@@ -50,11 +50,11 @@ const QuestionDetail = (props) => {
     setShowModal(false);
   }
 
-  const { id, question, choices, published_at, image_url } = detail; 
+  const { question, choices, published_at, image_url } = detail; 
   const { isOnline } = props;
   
   if (!isOnline) {
-    return <RetryConnection handleClick={() => getDetail()} />
+    return <RetryConnection handleClick={getDetail} />
   }
 
   return (
@@ -66,7 +66,7 @@ const QuestionDetail = (props) => {
       <div className="detail-title">{question}</div>
       <div className="detail-published">Published on {moment(published_at).format('LLL')}</div>
       <div className="detail-image">
-        <img src={image_url} alt={id} />
+        <img src={image_url} alt="" />
       </div>
       <div className="detail-choices">
         {choices && choices.map((item) =>

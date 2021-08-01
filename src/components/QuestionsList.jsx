@@ -17,7 +17,6 @@ const QuestionsList = (props) => {
   const queryFilter = (new URLSearchParams(search).get('filter'));
   
   const inputRef = useRef(null);
-  const cleanRef = useRef(null);
 
   const [isLoading, setIsLoading] = useState(true);
   const [serverHealth, setServerHealth] = useState(false);
@@ -27,6 +26,8 @@ const QuestionsList = (props) => {
   const [offset, setOffset] = useState(0);
 
   const getResults = queryFilter === null || filter.length > 0;
+  const showWidgets = queryFilter === null && filter.length > 0;
+
   
   useEffect(() => {
     getServerHealth();
@@ -55,11 +56,15 @@ const QuestionsList = (props) => {
         setServerHealth(false);
       }
     })
+    .catch(error => {
+      setIsLoading(false);
+      setServerHealth(false);
+    })
   }
 
   const getQuestionsList = (input) => {
     if (getResults) {
-      axios.get(`${listEndpoint}?limit=10&offset={0}&filter=${input}`)
+      axios.get(`${listEndpoint}?limit=10&offset=0&filter=${input}`)
       .then((res) => {
         setQuestionsList(res.data);
       })
@@ -131,43 +136,42 @@ const QuestionsList = (props) => {
     return <RetryConnection handleClick={handleRetryClick} />
   }
 
+  if (isLoading) {
+    return <Loader type="Circles" color="#4ACC90" height={60} width={60} />
+  }
+
+  if (!isLoading && !serverHealth) {
+    return <button className="btn-retry" onClick={handleRetryClick}>Retry Action</button>
+  }
+
   return (
     <div className="list-main">
-      { isLoading && 
-        <Loader type="Circles" color="#4ACC90" height={60} width={60} />
-      }
-      { !isLoading && !serverHealth &&
-        <button className="btn-retry" onClick={handleRetryClick}>Retry Action</button>
-      }
-      { !isLoading && serverHealth &&
-        <>
-          <form className="search-form" onSubmit={handleSubmit}>
-            <div className="search-fields">              
-              <input 
-                type="text" 
-                className="search-input"
-                name="searchInput"
-                ref={inputRef}
-                value={filter} 
-                onChange={handleChange} 
-              />
-              <div className="clean-search" ref={cleanRef} onClick={handleCleanSearch} hidden={filter.length > 0 ? false : true }>
-                <span className="material-icons clean-icon">cancel</span>
-              </div>
-            </div>
-            <button className="btn-search" type="submit">Search</button>
-          </form>
-          <div className="list">{questions}</div>
+      <form className="search-form" onSubmit={handleSubmit}>
+        <div className="search-fields">              
+          <input 
+            type="text" 
+            className="search-input"
+            name="searchInput"
+            ref={inputRef}
+            value={filter} 
+            onChange={handleChange} 
+          />
+          <div className="clean-search" onClick={handleCleanSearch} hidden={filter.length > 0 ? false : true }>
+            <span className="material-icons clean-icon">cancel</span>
+          </div>
+        </div>
+        <button className="btn-search" type="submit">Search</button>
+      </form>
+      <div className="list">{questions}</div>
 
-          {getResults && 
-            <div>
-              <button className="btn-show-more" onClick={() => setOffset(offset + 10)}>Show more</button>
-              <ShareButton openModal={openModal} />
-            </div>
-          }
-          <ShareModal url={window.location.href} showModal={showModal} closeModal={closeModal} />
-        </>
+      {getResults && 
+        <div>
+          <button className="btn-show-more" onClick={() => setOffset(offset + 10)}>Show more</button>
+          <ShareButton openModal={openModal} />
+        </div>
       }
+
+      <ShareModal url={window.location.href} showModal={showModal} closeModal={closeModal} />
     </div>
   );
 }

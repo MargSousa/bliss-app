@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import { shareEndpoint } from '../data/api';
+import { validEmail } from '../data/functions';
 import '../styles/ShareModal.css';
 
 const ShareModal = ({ url, showModal, closeModal}) => {
@@ -16,7 +17,7 @@ const ShareModal = ({ url, showModal, closeModal}) => {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    if (email.length > 0) {
+    if (email.length > 0 && validEmail(email)) {
       axios.post(`${shareEndpoint}?destination_email=${email}&content_url=${url}`)
         .then(res => {
           setListShared(true);
@@ -34,6 +35,7 @@ const ShareModal = ({ url, showModal, closeModal}) => {
 
   const handleCloseModal = () => {
     closeModal();
+    setEmail('');
     setShareNote('');
   }
 

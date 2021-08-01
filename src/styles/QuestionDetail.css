@@ -1,7 +1,8 @@
 .detail {
   display: flex;
   flex-direction: column;
-  width: 70%;
+  width: 100%;
+  max-width: 600px;
 }
 
 .btn-back {
@@ -12,6 +13,10 @@
   padding: 5px 0px;
   margin-bottom: 10px;
   background-color: white;
+}
+
+.btn-back:hover {
+  text-decoration: underline;
 }
 
 .icon-back {
@@ -33,13 +38,10 @@
   color: #B8B8B8;
 }
 
-/* .detail-info {
-  display: flex;
-  justify-content: space-between;
-} */
-
 .detail-image {
+  display: flex;
   margin: 10px 0px;
+  width: 100%;
 }
 
 .detail-image img {
