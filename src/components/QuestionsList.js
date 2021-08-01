@@ -21,12 +21,20 @@ const QuestionsList = () => {
   const [questionsList, setQuestionsList] = useState([]);
   const [filter, setFilter] = useState(queryFilter ? queryFilter : '');
   const [showModal, setShowModal] = useState(false);
+  const [offset, setOffset] = useState(0);
 
   const getResults = queryFilter === null || filter.length > 0;
   
   useEffect(() => {
     getServerHealth();
+    setOffset(0);
   }, [])
+
+  useEffect(() => {
+    if (offset > 0) {
+      addQuestionsList(filter);
+    }
+  }, [offset])
   
   const getServerHealth = () => {
     axios.get('https://private-anon-7c54611a93-blissrecruitmentapi.apiary-mock.com/health')
@@ -39,7 +47,6 @@ const QuestionsList = () => {
         if (inputRef.current && queryFilter === '') {
           inputRef.current.focus();
         }
-    
       } else {
         setIsLoading(false);
         setServerHealth(false);
@@ -49,9 +56,20 @@ const QuestionsList = () => {
 
   const getQuestionsList = (input) => {
     if (getResults) {
-      axios.get(`http://private-anon-7c54611a93-blissrecruitmentapi.apiary-mock.com/questions?limit=10&offset=&filter=${input}`)
+      axios.get(`http://private-anon-7c54611a93-blissrecruitmentapi.apiary-mock.com/questions?limit=10&offset={0}&filter=${input}`)
       .then((res) => {
         setQuestionsList(res.data);
+      })
+    }
+  }
+
+  const addQuestionsList = (input) => {
+    if (getResults) {
+      axios.get(`http://private-anon-7c54611a93-blissrecruitmentapi.apiary-mock.com/questions?limit=10&offset=${offset}&filter=${input}`)
+      .then((res) => {
+        const newData = questionsList;
+        const newList = newData.concat(res.data);
+        setQuestionsList(newList);
       })
     }
   }
@@ -92,12 +110,11 @@ const QuestionsList = () => {
     }
   }
 
-
   const questions = questionsList && questionsList.map((item) => {
     const date = moment(item.published_at).format('LLL');
     return (
       <Link to={`/questions/${item.id}`} className="list-item" key={item.id} >
-        <img src={item.thumb_url} alt={item.id} />
+        <img className="list-thumb" src={item.thumb_url} alt={item.id} />
         <div className="list-info">
           <div className="list-title">{item.question}</div>
           <div className="list-published">Published on {date}</div>
@@ -132,8 +149,14 @@ const QuestionsList = () => {
             </div>
             <button className="btn-search" type="submit">Search</button>
           </form>
-          {getResults && <ShareButton openModal={openModal} />}
           <div className="list">{questions}</div>
+
+          {getResults && 
+            <div>
+              <button className="btn-show-more" onClick={() => setOffset(offset + 10)}>Show more</button>
+              <ShareButton openModal={openModal} />
+            </div>
+          }
           <ShareModal url={window.location.href} showModal={showModal} closeModal={closeModal} />
         </>
       }

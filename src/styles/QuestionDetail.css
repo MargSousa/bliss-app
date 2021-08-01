@@ -33,10 +33,10 @@
   color: #B8B8B8;
 }
 
-.detail-info {
+/* .detail-info {
   display: flex;
   justify-content: space-between;
-}
+} */
 
 .detail-image {
   margin: 10px 0px;
@@ -75,6 +75,12 @@
 
 .btn-vote:hover {
   background-color: #3DB980;
+}
+
+.detail-share {
+  margin: 20px 0px 0px 0px;
+  display: flex;
+  justify-content: center;
 }
 
 @media(max-width: 500px) {

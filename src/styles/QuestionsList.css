@@ -41,6 +41,11 @@
   color: grey;
 }
 
+.list-thumb {
+  height: 120px;
+  width: 120px;
+}
+
 .btn-retry,
 .btn-search {
   background-color: #4ACC90;
@@ -85,4 +90,12 @@
 .clean-icon {
   font-size: 20px;
   color: #D3D3D3;
+}
+
+.btn-show-more {
+  font-weight: bold;
+  background-color: #5AABFC;
+  color: white;
+  margin-top:30px;
+  margin-right: 20px;
 }
