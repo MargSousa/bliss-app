@@ -55,6 +55,7 @@
 
 .search-form {
   margin: 20px 0px;
+  width: 100%;
 }
 
 .search-fields {
@@ -67,7 +68,7 @@
   position: relative;
 }
 .search-input {
-  width: 300px;
+  width: 100%;
 }
 
 .search-fields input {
