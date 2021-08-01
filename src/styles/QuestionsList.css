@@ -57,7 +57,31 @@
   margin: 20px 0px;
 }
 
+.search-fields {
+  display: flex;
+  align-items: center;
+  width: 300px;
+  margin-right: 10px;
+  border-radius: 5px;
+  border: solid 1px rgb(211, 211, 211);
+  position: relative;
+}
 .search-input {
   width: 300px;
-  margin-right: 10px; 
+}
+
+.search-fields input {
+  border: none;
+}
+
+.clean-search {
+  cursor: pointer;
+  position: absolute;
+  top: 8px;
+  right: 10px;
+}
+
+.clean-icon {
+  font-size: 20px;
+  color: #D3D3D3;
 }

@@ -14,6 +14,7 @@ const QuestionsList = () => {
   const queryFilter = (new URLSearchParams(search).get('filter'));
   
   const inputRef = useRef(null);
+  const cleanRef = useRef(null);
 
   const [isLoading, setIsLoading] = useState(true);
   const [serverHealth, setServerHealth] = useState(false);
@@ -31,7 +32,7 @@ const QuestionsList = () => {
     axios.get('https://private-anon-7c54611a93-blissrecruitmentapi.apiary-mock.com/health')
     .then((res) => {
       if(res.data.status === 'OK') {
-        getQuestionsList();
+        getQuestionsList(filter);
         setServerHealth(true);
         setIsLoading(false);
     
@@ -46,9 +47,9 @@ const QuestionsList = () => {
     })
   }
 
-  const getQuestionsList = () => {
+  const getQuestionsList = (input) => {
     if (getResults) {
-      axios.get(`http://private-anon-7c54611a93-blissrecruitmentapi.apiary-mock.com/questions?limit=10&offset=&filter=${filter}`)
+      axios.get(`http://private-anon-7c54611a93-blissrecruitmentapi.apiary-mock.com/questions?limit=10&offset=&filter=${input}`)
       .then((res) => {
         setQuestionsList(res.data);
       })
@@ -71,7 +72,7 @@ const QuestionsList = () => {
         pathname: '/questions',
         search: `filter=${filter}`
       });
-      getQuestionsList();
+      getQuestionsList(filter);
     }
   }
 
@@ -82,6 +83,15 @@ const QuestionsList = () => {
   const closeModal = () => {
     setShowModal(false);
   }
+
+  const handleCleanSearch = () => {
+    setFilter('');
+    if(history.location.pathname !== '/') {
+      history.push('/questions');
+      getQuestionsList('');
+    }
+  }
+
 
   const questions = questionsList && questionsList.map((item) => {
     const date = moment(item.published_at).format('LLL');
@@ -96,7 +106,6 @@ const QuestionsList = () => {
     )
   })
 
-
   return (
     <div className="list-main">
       { isLoading && 
@@ -108,17 +117,22 @@ const QuestionsList = () => {
       { !isLoading && serverHealth &&
         <>
           <form className="search-form" onSubmit={handleSubmit}>
-            <input 
-              type="text" 
-              className="search-input"
-              name="searchInput"
-              ref={inputRef}
-              value={filter} 
-              onChange={handleChange} 
-            />
+            <div className="search-fields">              
+              <input 
+                type="text" 
+                className="search-input"
+                name="searchInput"
+                ref={inputRef}
+                value={filter} 
+                onChange={handleChange} 
+              />
+              <div className="clean-search" ref={cleanRef} onClick={handleCleanSearch} hidden={filter.length > 0 ? false : true }>
+                <span className="material-icons clean-icon">cancel</span>
+              </div>
+            </div>
             <button className="btn-search" type="submit">Search</button>
           </form>
-          <ShareButton openModal={openModal} />
+          {getResults && <ShareButton openModal={openModal} />}
           <div className="list">{questions}</div>
           <ShareModal url={window.location.href} showModal={showModal} closeModal={closeModal} />
         </>
