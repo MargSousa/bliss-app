@@ -6,9 +6,11 @@ import moment from 'moment';
 import ShareModal from './ShareModal';
 import ShareButton from './ShareButton';
 import { healthCheckEndpoint, listEndpoint } from '../data/api';
+import ConnectionCheck from '../hoc/ConnectionCheck';
+import RetryConnection from './RetryConnection';
 import '../styles/QuestionsList.css';
 
-const QuestionsList = () => {
+const QuestionsList = (props) => {
 
   const history = useHistory();
   const { search } = useLocation();
@@ -124,6 +126,11 @@ const QuestionsList = () => {
     )
   })
 
+  const { isOnline } = props;
+  if (!isOnline) {
+    return <RetryConnection handleClick={handleRetryClick} />
+  }
+
   return (
     <div className="list-main">
       { isLoading && 
@@ -165,4 +172,4 @@ const QuestionsList = () => {
   );
 }
  
-export default QuestionsList;
+export default ConnectionCheck(QuestionsList);

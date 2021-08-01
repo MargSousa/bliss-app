@@ -5,9 +5,11 @@ import moment from 'moment';
 import ShareButton from './ShareButton';
 import ShareModal from './ShareModal';
 import { questionsDetailEndpoint } from '../data/api';
+import ConnectionCheck from '../hoc/ConnectionCheck';
+import RetryConnection from '../components/RetryConnection';
 import '../styles/QuestionDetail.css';
 
-const QuestionDetail = () => {
+const QuestionDetail = (props) => {
 
   const { questionId } = useParams();
 
@@ -15,11 +17,15 @@ const QuestionDetail = () => {
   const [showModal, setShowModal] = useState(false);
 
   useEffect(() => {
-    axios.get(`${questionsDetailEndpoint}/${Number(questionId)}`)
-      .then(res => {
-        setDetail(res.data);
-      })
+    getDetail();
   }, [questionId])
+
+  const getDetail = () => {
+    axios.get(`${questionsDetailEndpoint}/${Number(questionId)}`)
+    .then(res => {
+      setDetail(res.data);
+    })
+  }
 
   const handleVote = (event) => {
     const newDetail = detail;
@@ -45,6 +51,11 @@ const QuestionDetail = () => {
   }
 
   const { id, question, choices, published_at, image_url } = detail; 
+  const { isOnline } = props;
+  
+  if (!isOnline) {
+    return <RetryConnection handleClick={() => getDetail()} />
+  }
 
   return (
     <div className="detail">
@@ -73,4 +84,4 @@ const QuestionDetail = () => {
   );
 }
  
-export default QuestionDetail;
+export default ConnectionCheck(QuestionDetail);
