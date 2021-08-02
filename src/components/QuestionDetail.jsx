@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useParams, Link } from 'react-router-dom';
+import { useParams, useHistory } from 'react-router-dom';
 import axios from 'axios';
 import moment from 'moment';
 import ShareButton from './ShareButton';
@@ -12,6 +12,7 @@ import '../styles/QuestionDetail.css';
 const QuestionDetail = (props) => {
 
   const { id } = useParams();
+  const history = useHistory();
 
   const [detail, setDetail] = useState([]);
   const [showModal, setShowModal] = useState(false);
@@ -59,10 +60,10 @@ const QuestionDetail = (props) => {
 
   return (
     <div className="detail">
-      <Link to="/questions" className="btn-back" >
+      <button onClick={() => history.goBack()} className="btn-back" >
         <span className="material-icons icon-back">arrow_back_ios</span>
         <span>List of Questions</span>
-      </Link>
+      </button>
       <div className="detail-title">{question}</div>
       <div className="detail-published">Published on {moment(published_at).format('LLL')}</div>
       <div className="detail-image">
