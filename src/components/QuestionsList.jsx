@@ -24,6 +24,7 @@ const QuestionsList = (props) => {
   const [filter, setFilter] = useState(queryFilter ? queryFilter : '');
   const [showModal, setShowModal] = useState(false);
   const [offset, setOffset] = useState(0);
+  const [isQueryEmpty, setIsQueryEmpty] = useState(queryFilter === '' && queryFilter !== null ? true : false);
 
   const getResults = queryFilter === null || filter.length > 0;
   
@@ -98,6 +99,7 @@ const QuestionsList = (props) => {
         search: `filter=${filter}`
       });
       getQuestionsList(filter);
+      setIsQueryEmpty(false);
     }
   }
 
@@ -111,6 +113,7 @@ const QuestionsList = (props) => {
 
   const handleCleanSearch = () => {
     setFilter('');
+    setIsQueryEmpty(false);
     if(history.location.pathname !== '/') {
       history.push('/questions');
       getQuestionsList('');
@@ -163,7 +166,7 @@ const QuestionsList = (props) => {
       </form>
       <div className="list">{questions}</div>
 
-      {getResults && 
+      { !isQueryEmpty &&
         <div>
           <button className="btn-show-more" onClick={() => setOffset(offset + 10)}>Show more</button>
           <ShareButton openModal={openModal} />
